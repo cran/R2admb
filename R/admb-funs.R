@@ -28,7 +28,7 @@ rep_pars <- function(parnames) {
   parnames
 }
 
-read_pars <- function (fn) {
+read_pars <- function (fn,drop_phase=TRUE) {
   ## see
   ##  http://admb-project.org/community/admb-meeting-march-29-31/InterfacingADMBwithR.pdf
   ## for an alternate file reader -- does this have equivalent functionality?
@@ -58,7 +58,7 @@ read_pars <- function (fn) {
   npar2 <- length(parlines)  ## number of distinct parameters
   parlen <- count.fields(paste(fn,".par",sep=""))
   parlen2 <- count.fields(paste(fn,".par",sep=""),comment.char="")
-  parnames <- gsub("^# +","",gsub(":$","",tmp2[parlines]))
+  parnames0 <- parnames <- gsub("^# +","",gsub(":$","",tmp2[parlines]))
   parlist <- vector("list",npar2)
   parnameslist <- vector("list",npar2)
   names(parlist) <- parnames
@@ -66,6 +66,8 @@ read_pars <- function (fn) {
   cumline <- 1
   ## browser()
   pp <- c(parlines,length(tmp2)+1)
+  ## reshape parameters properly
+  parid <- numeric(npar2)
   for (i in seq(npar2)) {
     nrows <- diff(pp)[i]-1
     curlines <- cumline:(cumline+nrows-1)
@@ -117,21 +119,34 @@ read_pars <- function (fn) {
     ## (have dropped mc parameters)
     cormat <- as.matrix(cor_dat[1:nsdpar,4+(1:nsdpar)])
     cormat[upper.tri(cormat)] <- t(cormat)[upper.tri(cormat)]
-    ## FIXME ...
-    parnames <- c(parnames,sd_dat[-seq_along(parnames),2])
-    ## parnames <- sd_dat[1:npar, 2]  ## FIXME: check with parnames above
-    if (any(duplicated(parnames))) {
-      parnames <- rep_pars(parnames)
+    ## be careful here -- need to adjust for phase<0 parameters,
+    ##  which will be in parameter vector but not in
+    ##  sd
+    sdparnames <- sd_dat[, 2]
+    misspars <- setdiff(parnames0,sdparnames)
+    ## only names of positive-phase parameters
+    parnames2 <- unlist(parnameslist[!parnames0 %in% misspars])
+    sdparnames <- c(parnames2,sdparnames[-seq_along(parnames2)])
+    ## parnames <- c(parnames,sd_dat[-seq_along(parnames),2])
+    if (any(duplicated(sdparnames))) {
+      sdparnames <- rep_pars(sdparnames)
+    }
+    npar3 <- length(parnames2) ## positive-phase only
+    if (drop_phase) {
+      parlist <- parlist[!parnames0 %in% misspars]
+      est <- unlist(parlist)
+      names(est) <- parnames2
+      npar <- npar3
     }
     std <- sd_dat[, 4]
-    sdrptvals <- sd_dat[-(1:npar),3]
+    sdrptvals <- sd_dat[-(1:npar3),3]
     vcov <- outer(std,std) * cormat
   }
   ## hes <- read_admbbin("admodel.hes")
   ## FIXME: can read this, but I don't know what it means!
   ##  it doesn't seem to be the raw Hessian ...
   names(std) <- rownames(vcov) <- rownames(cormat) <-
-    colnames(vcov) <- colnames(cormat) <- parnames
+    colnames(vcov) <- colnames(cormat) <- sdparnames
   list(coefficients=c(est,sdrptvals),
        coeflist=parlist,
        se=std, loglik=-loglik, maxgrad=-maxgrad, cor=cormat, vcov=vcov,
@@ -288,10 +303,10 @@ read_chunk <- function(fn,sep="^#",maxlines=1000) {
   while (!end) {
     tmp <- readLines(fn,n=1)
     if (i>1 && has_sep(tmp)) {
-      end=TRUE
+      end <- TRUE
       pushBack(tmp,fn)
     } else if (length(tmp)==0) {
-      end=TRUE
+      end <- TRUE
     } else {
       ans[i] <- tmp
       i <- i+1
@@ -411,7 +426,7 @@ reptoRlist <- function(fn) {
     if(i!=nv) irr=match(vnam[i+1],ifile) else irr=length(ifile)+1 #next row
     dum=NA
     if(irr-ir==2) dum=as.double(scan(fn,skip=ir,nlines=1,quiet=TRUE,what=""))
-    if(irr-ir>2) dum=as.matrix(read.table(fn,skip=ir,nrow=irr-ir-1,fill=T))
+    if(irr-ir>2) dum=as.matrix(read.table(fn,skip=ir,nrows=irr-ir-1,fill=TRUE))
     if(is.numeric(dum))#Logical test to ensure dealing with numbers
       {
         A[[ vnam[i ]]]=dum
@@ -601,14 +616,14 @@ read_admbbin <- function(fn) {
          
 ## from glmmADMB, by Hans Skaug
 write_dat <- "dat_write" <-
-function (name, L) 
+function (name, L, append=FALSE) 
 {
     n <- nchar(name)
-    if (substring(name, n - 3, n) == ".dat") {
-      file_name <- name
-    } else file_name <- paste(name, "dat", sep = ".")
+    file_name <- if (tools::file_ext(name) == ".dat") {
+      name
+    } else paste(name, "dat", sep = ".")
     cat("# \"", file_name,"\" produced by dat_write() from R2admb ", 
-        date(), "\n", file = file_name, sep = "")
+        date(), "\n", file = file_name, sep = "", append=append)
     for (i in 1:length(L)) {
         x <- L[[i]]
         dc <- data.class(x)
@@ -616,9 +631,9 @@ function (name, L)
           cat("#", names(L)[i], "\n", L[[i]], "\n\n", file = file_name, 
               append = TRUE)
         } else {
-          if (data.class(x) == "matrix") {
+          if (dc == "matrix") {
             cat("#", names(L)[i], "\n", file = file_name, append = TRUE)
-            write.table(L[[i]], , col = FALSE, row = FALSE, quote = FALSE, 
+            write.table(L[[i]], , col.names = FALSE, row.names = FALSE, quote = FALSE, 
                         file = file_name, append = TRUE)
             cat("\n", file = file_name, append = TRUE)
           } else {
@@ -645,7 +660,7 @@ function (name, L)
                 append = TRUE)
         if (data.class(x) == "matrix") {
             cat("#", names(L)[i], "\n", file = file_name, append = TRUE)
-            write.table(L[[i]], , col = FALSE, row = FALSE, quote = FALSE, 
+            write.table(L[[i]], col.names = FALSE, row.names = FALSE, quote = FALSE, 
                 file = file_name, append = TRUE)
             cat("\n", file = file_name, append = TRUE)
         }
@@ -752,11 +767,18 @@ run_admb <- function(fn,verbose=FALSE,mcmc=FALSE,mcmc.opts=mcmc.control(),
     args <- paste(args,extra.args)
   }
   if (verbose) cat("running compiled executable with args: '",args,"'...\n")
-  
-  if (.Platform$OS.type=="windows") 
-    res <- shell(paste(fn,".exe ",args," >", fn,".out",sep=""),intern=TRUE)
-  else  
-    res <- system(paste("./",fn,args," 2>",fn,".out",sep=""),intern=TRUE)
+
+  outfn <- paste(fn,"out",sep=".")
+
+  if (.Platform$OS.type=="windows") {
+    cmdname <- paste(fn,".exe")
+    shellcmd <- shell
+  } else {
+    cmdname <- paste("./",fn,sep="")
+    shellcmd <- system
+  }
+  if (!file.exists(cmdname)) stop("executable ",cmdname," not found: did you forget to compile it?")
+  res <- shellcmd(paste(cmdname,args,">",outfn),intern=TRUE)
     
   outfile <- readLines(paste(fn,".out",sep=""))
   ## replace empty res with <empty> ?
