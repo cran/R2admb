@@ -4,6 +4,53 @@
 \title{R2admb News}
 \encoding{UTF-8}
 
+\section{Changes in version 0.7.10 (2013-9-22}{
+  \itemize{
+    \item test tweaks
+  }
+}
+
+\section{Changes in version 0.7.9 (2013-9-21}{
+  \itemize{
+    \item CRAN tweaks
+    \item admb_version now returns NA if ADMB not found
+  }
+}
+  
+\section{Changes in version 0.7.8 (2013-9-20}{
+  \itemize{
+    \item bug fix for AIC
+    \item improvements to read_pars
+    \item allow all-numeric report file
+    \item bug fix for parameter section containing only LOCAL_CALCS
+  }
+}
+
+
+\section{Changes in version 0.7.7 (2013-2-20}{
+  \itemize{
+    \item allow multiple LOC_CALCS blocks per section 
+    \item improved handling of variable types (fixed, random, extra) in
+  accessors (coef, confint, stdEr)
+    \item phase support
+    \item add AIC to summary printing method
+    \item read_plt() (likelihood profile info) now user-visible
+    \item warn on missing cor file
+    \item add admb_version()
+    \item fix buglets with MCMC reading
+    \item fix bug to allow re to be specified within parameter lists
+    \item more flexibility in extracting coefficients, var-cov elements
+  }
+}
+
+\section{Changes in version 0.7.6 (2012-11-06)}{
+  \itemize{
+    \item Development migration to github
+    \item Add Jeff Laake to authors
+    \item Improved reading of hessian, vcov matrix
+  }
+}
+
 \section{Changes in version 0.7.5.3}{
   \itemize{
     \item ignore !! *after* beginning of line in variable definitions
@@ -70,6 +117,7 @@
     \item Support for profiling
     \item Support for random effects
     \item Expanded vignette
+    \item PARAMETERS and DATA section can be created automatically
 }}
 
 \section{Changes in version 0.5 (2009-11-25)}{
