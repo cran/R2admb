@@ -4,6 +4,21 @@
 \title{R2admb News}
 \encoding{UTF-8}
 
+\section{Changes in version 0.7.15 (2016-12-06}{
+  \itemize{
+    \item add \code{covfn} argument to \code{read_params}, warn if
+  multiple \code{.std} files found (Koen van Benthem)
+    \item small CRAN compatibility fixes
+  }
+}
+\section{Changes in version 0.7.14 (2015-7-20}{
+  \itemize{
+    \item truncate profile files to 8 characters
+    (Edgar Gonzalez)
+    \item CRAN tweaks
+  }
+}
+
 \section{Changes in version 0.7.13 (2015-4-12}{
   \itemize{
     \item CRAN tweaks
