@@ -4,6 +4,18 @@
 \title{R2admb News}
 \encoding{UTF-8}
 
+\section{Changes in version 0.7.16.2 (2020-03-09)}{
+  \itemize{
+    \item Fix admb-project.org URL
+  }
+}
+
+\section{Changes in version 0.7.16.1 (2020-03-08)}{
+  \itemize{
+    \item Fix vignette breakage from ggplot update (?)
+  }
+}
+
 \section{Changes in version 0.7.16 (2017-10-29}{
   \itemize{
     \item handle non-standard report files better; add flag to ignore them
