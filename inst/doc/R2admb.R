@@ -7,7 +7,7 @@ opts_chunk$set(tidy=FALSE)
 #                          run.opts=run.control(checkparam="write",
 #                          checkdata="write"))
 
-## ----libs,message=FALSE-------------------------------------------------------
+## ----libs,message=FALSE, results = "hide"-------------------------------------
 library("R2admb")
 library("ggplot2") ## for pictures
 theme_set(theme_bw())  ## cosmetic
@@ -36,7 +36,7 @@ predfr <-
 ## ----fig1,echo=FALSE----------------------------------------------------------
 g1  <- ggplot(ReedfrogSizepred,
               aes(x=TBL,y=Kill/10))+
-    geom_point()+stat_sum(aes(size=..n..))+
+    geom_point()+stat_sum(aes(size=after_stat(n)))+
     geom_smooth(method="loess",formula=y~x)+
     labs(size="n",x="Size (total body length",
          y="Proportion killed")+

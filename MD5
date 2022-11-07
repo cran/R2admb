@@ -1,6 +1,6 @@
-cf5becf23da755dfaa6434453bc7c017 *DESCRIPTION
+cb0dd769d12ac34ec8768bca6ffac3c6 *DESCRIPTION
 1185b278b5c6959600bf5d024fd8c353 *NAMESPACE
-218f02175f81f902e23e78bd52b2f18b *R/R2admb-package.r
+fe75fd14fbfcf313d22dc2646be08198 *R/R2admb-package.r
 7e9123af4374b41387e8e0725f7061d6 *R/base_funs.r
 0ed6ebc24ee8c0a86ded93ab747549aa *R/check_section.r
 e1930e47c9e24c729f5e78ef85f4a79c *R/do_admb.r
@@ -16,8 +16,8 @@ e1930e47c9e24c729f5e78ef85f4a79c *R/do_admb.r
 a4070464bcef72fff16c72f1a6f08a92 *R/std_accessor.r
 37a118c7a3c1389af9fc4a325abba479 *R/utility_funs.r
 4c52fcf949c08b55cb7e29ab144d8dbe *R/write_funs.r
-a8a4d734e13e931123eda3bb04362c27 *build/vignette.rds
-8745cc85313e63ace8d928c1985e91cf *inst/NEWS.Rd
+cb928212d1e34337672ea6f4ccc16f17 *build/vignette.rds
+cf8cd294274dee5a94ed584f7d6cfe5f *inst/NEWS.Rd
 7c356dd489d4a57a0d1a50d631a79659 *inst/admbtests/README
 cfbb1fba70ff0aca7acb34808b96a476 *inst/admbtests/ReedfrogSizepred0.tpl
 71d94f965f8ffa9fb385dc0bca9eaf2e *inst/admbtests/catage.cor
@@ -34,9 +34,9 @@ fe7552c3e4c29c294445ab795cef8932 *inst/admbtests/longvars.R
 692af9bfcb2471311cbc2af25586128c *inst/admbtests/simple.R
 fb39342f0aaed405bc8ca96f524a418a *inst/admbtests/toy1.R
 ada2698ddaa627b0a536f1cf8e5a8e04 *inst/admbtests/toy1.tpl
-0c264eb9d241a98713a344d55af33761 *inst/doc/R2admb.R
-0562e5be570a4454b600f574f789010d *inst/doc/R2admb.Rnw
-0e63b24a623668fbeb8219247f69980c *inst/doc/R2admb.pdf
+a45731b8ecba6ca5bc3e95e5b29fa8dd *inst/doc/R2admb.R
+eeb64c00c61784e5169d24fe555cba32 *inst/doc/R2admb.Rnw
+f83317c34fbcc4b5bc0a0685721f3b06 *inst/doc/R2admb.pdf
 fd36bb5c1f374d018ed2a448b7ae13bc *inst/doc/Reedfrog_runs.RData
 6465b430818ac761561b28046d31302e *inst/doc/toy1_runs.RData
 cfbb1fba70ff0aca7acb34808b96a476 *inst/tplfiles/ReedfrogSizepred0.tpl
@@ -44,7 +44,7 @@ a7c3a3ba62f6634c164c6cf9453442c0 *inst/tplfiles/glmmadmb.tpl
 84cde0c835ee5416d7dfaab57c23da4e *inst/tplfiles/testversion.tpl
 e7a76098dedc258dbdb6dbc58b6a585f *inst/tplfiles/toy1.tpl
 30ed255cc3fe7089fd78f77f6f116a0f *man/AIC.admb.Rd
-c88a652fe19dedbc366d71afbc14f040 *man/R2admb-package.Rd
+815d4831cfc83fa34c8507393fccaded *man/R2admb-package.Rd
 912cf1b245c3d7e7088a56db2c5184ac *man/admb_version.Rd
 50130fbfa7142ef48153176f7d4c9d67 *man/compile_admb.Rd
 4903a8b7ccb327449990c9719b302a82 *man/do_admb.Rd
@@ -117,7 +117,7 @@ cea4ca7df7e6aa8545a8695584354c4b *tests/skate.R
 c4b510cfa9b981afe280720dc6107b7a *tests/stderr_bug.R
 cb3bb358f85831864d2658556567627d *vignettes/ESA1009.bst
 64cc2d58f7ac29ecb85aeee7ff52ec3e *vignettes/Gopher.tpl
-0562e5be570a4454b600f574f789010d *vignettes/R2admb.Rnw
+eeb64c00c61784e5169d24fe555cba32 *vignettes/R2admb.Rnw
 8e7f46770114b3fb02e026813d4a119f *vignettes/R2admb.bib
 a5e50eed8cca894302e0b00bce9b6c65 *vignettes/ReedfrogSizepred.tpl
 d358efa2127a34d2a326b5a5b419dc84 *vignettes/ReedfrogSizepred0.tpl
